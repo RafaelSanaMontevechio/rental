@@ -1,35 +1,16 @@
 import { Router } from 'express';
 
-import { CategoriesRepositories } from '../repositories/categories/CategoriesRepository';
+import { createCategoryController } from '../modules/cars/useCases/categories/createCategory';
+import { listCategoriesController } from '../modules/cars/useCases/categories/listCategories';
 
 const categoriesRoutes = Router();
 
-const categoryRepository = new CategoriesRepositories();
-
 categoriesRoutes.post('/', (req, res) => {
-  const { name, description } = req.body;
-
-  const categoryAlreadyExists = categoryRepository.findByName(name);
-
-  if (categoryAlreadyExists) {
-    return res.status(400).json({
-      message: 'Category already exists',
-    });
-  }
-
-  categoryRepository.create({ name, description });
-
-  return res.status(201).json({
-    message: 'Category created',
-  });
+  return createCategoryController.handle(req, res);
 });
 
-categoriesRoutes.get('/', (_req, res) => {
-  const categories = categoryRepository.list();
-
-  return res.json({
-    categories,
-  });
+categoriesRoutes.get('/', (req, res) => {
+  return listCategoriesController.handle(req, res);
 });
 
 export { categoriesRoutes };
