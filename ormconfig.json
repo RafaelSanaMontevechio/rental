@@ -1,8 +1,13 @@
 {
   "type": "postgres",
   "port": 5432,
-  "host": "db_rental",
+  "host": "localhost",
   "username": "docker",
   "password": "tester",
-  "database": "db_rental"
+  "database": "db_rental",
+  "migrations": ["./src/database/migrations/*.ts"],
+  "entities": ["./src/modules/**/entities/*.ts"],
+  "cli": {
+    "migrationsDir": "./src/database/migrations"
+  }
 }
